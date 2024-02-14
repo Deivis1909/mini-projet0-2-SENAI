@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tarefas</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f3e8fd; /* Fundo em lilás claro */
+        }
+
+        .lista {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f9f1e6; /* Cor de areia para os itens */
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .remove-btn {
+            cursor: pointer;
+            color: red;
+            margin-left: 10px;
+            font-size: 16px;
+        }
+
+        .remove-btn i {
+            font-style: normal;
+        }
+
+        .concluida {
+            text-decoration: line-through;
+            color: #888;
+        }
+
+        #adicionarBtn {
+            background-color: #8a80a3; /* Roxo escuro para o botão */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #adicionarBtn:hover {
+            background-color: #786f8c; /* Roxo mais escuro no hover */
+        }
+
+        #novaTarefa {
+            width: 60%;
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="lista">
+        <h2>Lista de Tarefas</h2>
+        <input type="text" id="novaTarefa" placeholder="Digite uma nova tarefa">
+        <button id="adicionarBtn" onclick="adicionarTarefa()">Adicionar Tarefa</button>
+
+        <ul id="listaTarefas">
+            <!-- Adicionei dois exemplos de itens à lista -->
+            <li>
+                <input type="checkbox" id="chk1" onchange="marcarConcluida(this)">
+                <span class="tarefa">Estudar HTML e CSS</span>
+                <span class="remove-btn" onclick="removerTarefa('chk1')"><i>&#10006;</i></span>
+            </li>
+            <li>
+                <input type="checkbox" id="chk2" onchange="marcarConcluida(this)">
+                <span class="tarefa">Estudar JavaScript</span>
+                <span class="remove-btn" onclick="removerTarefa('chk2')"><i>&#10006;</i></span>
+            </li>
+        </ul>
+    </div>
+
+    <script>
+        
+        function marcarConcluida(checkbox) {
+            var tarefa = checkbox.nextElementSibling;
+            if (checkbox.checked) {
+                tarefa.classList.add('concluida');
+            } else {
+                tarefa.classList.remove('concluida');
+            }
+        }
+
+        function removerTarefa(checkboxId) {
+            var checkbox = document.getElementById(checkboxId);
+            var li = checkbox.parentNode;
+            li.parentNode.removeChild(li);
+        }
+
+        function adicionarTarefa() {
+            var lista = document.getElementById("listaTarefas");
+            var novaLi = document.createElement("li");
+            var checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+
+            novaLi.appendChild(checkbox);
+
+            var tarefaText = document.getElementById("novaTarefa").value;
+            if (tarefaText.trim() === "") {
+                alert("Por favor, digite uma tarefa válida.");
+                return;
+            }
+
+            var tarefaSpan = document.createElement("span");
+            tarefaSpan.textContent = tarefaText;
+            novaLi.appendChild(tarefaSpan);
+
+            var removeBtn = document.createElement("span");
+            removeBtn.className = "remove-btn";
+            removeBtn.innerHTML = "<i>&#10006;</i>";
+            novaLi.appendChild(removeBtn);
+
+            lista.appendChild(novaLi);
+
+            checkbox.onchange = function() {
+                marcarConcluida(checkbox);
+            };
+
+            removeBtn.onclick = function() {
+                removerTarefa(checkbox.id);
+            };
+
+            // Limpar o campo de nova tarefa após adicionar
+            document.getElementById("novaTarefa").value = "";
+        }
+    </script>
+        
+    
+
+</body>
+</html>
+
+
+    
+
